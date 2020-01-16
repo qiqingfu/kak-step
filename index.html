@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>Document</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+
+    .dxh_banner {
+      width: 100%;
+      height: 220px;
+      background-image: url("./images/banner.png");
+      background-repeat: no-repeat;
+      background-size: 100% 100%;
+      position: relative;
+    }
+
+    .theme-btn {
+      position: absolute;
+      padding: 10px 38px;
+      border-radius: 4px;
+      background-color: #3590ff;
+      color: #fff;
+      font-size: 12px;
+      font-weight: 200px;
+      cursor: pointer;
+      letter-spacing: 1.2px;
+      transition: opacity 0.25s;
+    }
+
+    .container {
+      padding: 0 24px;
+      box-sizing: border-box;
+      position: relative;
+      font-size: 14px;
+      user-select: none;
+    }
+
+    .theme-btn:hover {
+      opacity: 0.8;
+    }
+
+    .home-page {
+      bottom: 16px;
+      left: 30px;
+    }
+
+    /**
+     * mask
+     */
+    .mask {
+      position: fixed;
+      left: 0;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(0, 0, 0, 0.3);
+      z-index: 9999;
+      display: none;
+    }
+
+    .model {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      width: 800px;
+      height: 582px;
+      background: rgba(255, 255, 255, 1);
+      box-sizing: border-box;
+    }
+
+    .model>.header {
+      position: relative;
+      width: 100%;
+      height: 32px;
+      line-height: 32px;
+      background: rgba(233, 233, 233, 1);
+      color: #2b3245ff;
+    }
+
+    .model>.header>.close {
+      position: absolute;
+      right: 10px;
+      width: 32px;
+      height: 32px;
+      line-height: 32px;
+      text-align: center;
+      cursor: pointer;
+    }
+
+    .model>.header>.close::before,
+    .model>.header>.close::after {
+      content: "";
+      width: 10px;
+      height: 2px;
+      background-color: #2b3245ff;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: rotateX(0deg);
+    }
+
+    .model>.header>.close::before {
+      transform: rotateZ(45deg);
+    }
+
+    .model>.header>.close::after {
+      transform: rotateZ(-45deg);
+    }
+
+    .model>.footer {
+      width: 100%;
+      position: absolute;
+      display: flex;
+      justify-content: flex-end;
+      bottom: 0;
+      left: 0;
+      height: 56px;
+      background: rgba(255, 255, 255, 1);
+      border-top: solid 1px rgb(233, 230, 230);
+    }
+
+    .model>.footer>.imd-btn {
+      margin-top: 8px;
+    }
+
+    /**
+     * 交互区域
+     */
+    .step-btn {
+      display: inline-block;
+      width: 98px;
+      height: 32px;
+      line-height: 32px;
+      border-radius: 4px;
+      text-align: center;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      color: rgba(255, 255, 255, 1);
+      transition: opacity 0.3s;
+    }
+
+    .step-btn:hover {
+      opacity: 0.6;
+    }
+
+    #main {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      padding-bottom: 56px;
+      overflow: hidden;
+    }
+
+    #main>.preview {
+      width: 100%;
+      height: 100%;
+    }
+
+    #main>.btn-group {
+      position: absolute;
+      left: 0;
+      top: 0;
+    }
+
+    /* step1 */
+    #main>.btn-group.step1 {
+      left: 340px;
+      top: 20px;
+    }
+
+    #main>.btn-group.step1>.prev {
+      display: none;
+    }
+
+    #main>.btn-group.step1>.next {
+      border: 1px solid rgba(255, 255, 255, 1);
+    }
+
+    /* step2 */
+    #main>.btn-group.step2 {
+      left: 485px;
+      top: 44px;
+    }
+
+    #main>.btn-group.step2>.next {
+      border: 1px solid rgba(255, 255, 255, 1);
+    }
+
+    /* step3 */
+    #main>.btn-group.step3 {
+      left: 70px;
+      top: 300px;
+    }
+
+    #main>.btn-group.step3>.next {
+      border: 1px solid rgba(255, 255, 255, 1);
+    }
+
+    /* step4 and step5*/
+    #main>.btn-group.step4,
+    #main>.btn-group.step5 {
+      left: 180px;
+      top: 250px;
+    }
+
+    #main>.btn-group.step4>.next,
+    #main>.btn-group.step5>.next {
+      border: 1px solid rgba(255, 255, 255, 1);
+    }
+
+    /* step6 */
+    #main>.btn-group.step6 {
+      left: 180px;
+      top: 230px;
+    }
+
+    #main>.btn-group.step6>.prev {
+      border: 1px solid rgba(255, 255, 255, 1);
+    }
+
+    #main>.btn-group.step6>.next {
+      display: none;
+    }
+  </style>
+  <script src="./ajax.js"></script>
+</head>
+
+<body>
+  <div>
+    <div class="dxh_banner">
+      <span class="theme-btn home-page">查看并升级</span>
+    </div>
+    <div class="mask">
+      <div class="model">
+        <div class="header container">
+          <span>版本更新</span>
+          <span class="close"></span>
+        </div>
+        <div id="main" class="container">
+          <img src="./images/1.png" alt="" class="preview" />
+          <div class="btn-group step1">
+            <span class="step-btn next">下一条</span>
+            <span class="step-btn prev">上一条</span>
+          </div>
+        </div>
+        <div class="container footer">
+          <span class="theme-btn imd-btn">立即升级</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    /**
+     * begin
+     */
+
+    (function () {
+      const getClassEl = c => document.querySelector(c);
+      const getIdEl = id => document.getElementById(id);
+
+      const mainEl = getIdEl("main");
+      const previewImage = getClassEl(".preview");
+      const btnGroup = getClassEl(".btn-group");
+      const nextBtn = getClassEl(".next");
+      const prevBtn = getClassEl(".prev");
+      const close = getClassEl(".close");
+      const mask = getClassEl(".mask");
+
+      // init
+      function Guide() {
+        (this.options = {
+          _stepList: {
+            1: {
+              picture: "./images/1.png"
+            },
+            2: {
+              picture: "./images/2.png"
+            },
+            3: {
+              picture: "./images/3.png"
+            },
+            4: {
+              picture: "./images/4.png"
+            },
+            5: {
+              picture: "./images/5.png"
+            },
+            6: {
+              picture: "./images/6.png"
+            }
+          },
+          currentStep: 1
+        }),
+          (this.type = "next"),
+          (this.stepCl = "step1");
+      }
+
+      Guide.prototype.init = function () {
+        let type = this.type;
+        let index =
+          type === "next"
+            ? this.options.currentStep++
+            : this.options.currentStep--;
+
+        this.rander();
+      };
+
+      Guide.prototype.setType = function (type) {
+        this.type = type;
+        return this;
+      };
+
+      Guide.prototype.rander = function (step) {
+        const image = this.options._stepList[
+          this.options.currentStep
+        ];
+        previewImage.setAttribute("src", image.picture);
+        const cls = this.getClass();
+        if (cls && step === undefined) {
+          btnGroup.classList.replace(
+            cls.oldClass,
+            cls.currentClass
+          );
+          this.stepCl = cls.currentClass;
+        } else {
+          btnGroup.classList.replace(step, cls.oldClass);
+          this.stepCl = cls.oldClass;
+        }
+      };
+
+      Guide.prototype.getClass = function () {
+        let match = this.stepCl.match(/\w+(\d)+/);
+        let currentStep = (match && match[1] * 1) || 1;
+
+        if (this.type === "next") {
+          return {
+            oldClass: `step${currentStep}`,
+            currentClass: `step${currentStep + 1}`
+          };
+        } else if (this.type === "prev") {
+          return {
+            oldClass: `step${currentStep}`,
+            currentClass: `step${currentStep - 1}`
+          };
+        } else {
+          return null;
+        }
+      };
+
+      Guide.prototype.destory = function () {
+        let step = this.stepCl;
+        (this.type = "next"), (this.stepCl = "step1");
+        this.options.currentStep = 1;
+        this.rander(step);
+      };
+
+      const guide = new Guide();
+
+      // next step
+      nextBtn.addEventListener(
+        "click",
+        function () {
+          guide.setType("next").init();
+        },
+        false
+      );
+
+      // prev step
+      prevBtn.addEventListener(
+        "click",
+        function () {
+          guide.setType("prev").init();
+        },
+        false
+      );
+
+      // close
+      close.addEventListener(
+        "click",
+        function () {
+          guide.destory();
+          mask.style.display = "none";
+        },
+        false
+      );
+
+      // open
+      getClassEl(".home-page").addEventListener(
+        "click",
+        function () {
+          mask.style.display = "block";
+        },
+        false
+      );
+
+      // 立即升级
+      getClassEl(".imd-btn").addEventListener(
+        "click",
+        function () {
+          // 发送 ajax请求
+          _homeajax({
+            type:'post',  // 默认为 get 请求
+            url:'/api/v1/xxx',  // 请求的 url
+            data:{
+                username:'name哈哈',
+                password:123
+            },
+            async:false,  // false 异步请求
+            success(res) {
+              console.log('请求成功!')
+            },
+            error(err) {
+              console.log('请求失败!')
+            }
+          })
+        },
+        false
+      );
+    })();
+  </script>
+</body>
+
+</html>
